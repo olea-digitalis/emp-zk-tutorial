@@ -8,7 +8,7 @@
 5. `mkdir data`
 
 
-## Compile & Run Example File
+## compile & run example file
 To compile:
 - `cmake . && make`
 
