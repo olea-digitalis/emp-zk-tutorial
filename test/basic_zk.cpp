@@ -11,24 +11,33 @@ const int threads = 1;
 
 void test_circuit_zk(BoolIO<NetIO> *ios[threads], int party) {
     setup_zk_bool<BoolIO<NetIO>>(ios, threads, party);
-    Bit a(0, ALICE);
-    Bit b(1, PUBLIC);
+    Bit a(0, ALICE); // commits to a private bit a=0
+    Bit b(1, PUBLIC); // commits to a public bit b=1
     
+    cout << "Reveal -----------------------------------------------" << endl;
     cout << "reveal operator -- a: " << a.reveal<bool>() << "   b: " << b.reveal<bool>() << endl;
+    cout << endl;
+    cout << "Logical Operators ------------------------------------" << endl;
     cout << "AND operator -- a & b: " << (a & b).reveal() << endl;
     cout << "XOR operator -- a ^ b: " << (a ^ b).reveal() << endl;
     cout << "OR operator -- a | b: " << (a | b).reveal() << endl;
     cout << "NOT operator -- !a: " << (!a).reveal() << "    !b: " << (!b).reveal() << endl;
+    cout << endl;
+    cout << "Comparison Operators -----------------------------------" << endl;
+    cout << "a==b: " << (a == b).reveal() << endl;
+    cout << "a!=b: " << (a != b).reveal() << endl;
+    cout << "--------------------------------------------------------" << endl;
+
 
     bool cheat = finalize_zk_bool<BoolIO<NetIO>>();
     if (cheat)error("cheat!\n");
 }
 
-/*
-void test_random_challenge(BoolIO<NetIO> *ios[threads], int party) {
+
+void test_coin_flip(BoolIO<NetIO> *ios[threads], int party) {
     setup_zk_bool<BoolIO<NetIO>>(ios, threads, party);
     BoolIO<NetIO> *io = ios[0];
-    
+
     PRG prg;
     block r;
     prg.random_block(&r, 1);
@@ -57,8 +66,6 @@ void test_random_challenge(BoolIO<NetIO> *ios[threads], int party) {
     bool cheat = finalize_zk_bool<BoolIO<NetIO>>();
     if (cheat)error("cheat!\n");
 }
-*/
-
 
 
 int main(int argc, char **argv) {
@@ -67,6 +74,7 @@ int main(int argc, char **argv) {
     for (int i = 0; i < threads; ++i)
         ios[i] = new BoolIO<NetIO>(new NetIO(party == ALICE ? nullptr : "127.0.0.1", port + i), party == ALICE);
     test_circuit_zk(ios, party);
+    //test_coin_flip(ios, party);
 
     for (int i = 0; i < threads; ++i) {
         delete ios[i]->io;
