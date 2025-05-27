@@ -5,7 +5,7 @@
 ##### Mac:
 - install wget: `brew install wget`
 - install cmake: `brew install cmake`
-- change everything in emp folder to Cmake requirement to version 4.0
+- change everything in emp folder to Cmake requirement to version 3.5
 script to update Cmake requirement:
 
 ```
