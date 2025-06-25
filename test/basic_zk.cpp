@@ -188,11 +188,6 @@ void test_coin_flip(BoolIO<NetIO> *ios[threads], int party) {
     if (cheat)error("cheat!\n");
 }
 
-void print_spacer(int party) {
-    if (party==ALICE) {
-        cout << "\n\n\n\n";
-    }
-}
 
 int main(int argc, char **argv) {
     parse_party_and_port(argv, &party, &port);
@@ -200,13 +195,18 @@ int main(int argc, char **argv) {
     for (int i = 0; i < threads; ++i)
         ios[i] = new BoolIO<NetIO>(new NetIO(party == ALICE ? nullptr : "127.0.0.1", port + i), party == ALICE);
     hello_world_zk(ios,party);
-    print_spacer(party);
+
+    cout << "\n\n";
+
     test_bit_operations_zk(ios, party);
-    print_spacer(party);
+
+    cout << "\n\n";
+
     test_int_operations_zk(ios, party);
-    print_spacer(party);
-    test_control_flow_zk(ios, party);
+
+    cout << "\n\n";
     
+    test_control_flow_zk(ios, party);
     for (int i = 0; i < threads; ++i) {
         delete ios[i]->io;
         delete ios[i];
