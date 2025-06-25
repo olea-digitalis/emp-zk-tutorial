@@ -18,3 +18,5 @@ endmacro()
 # Test cases
 
 add_test_case_with_run(basic_zk)
+add_test_case_with_run(exercises_zk)
+add_test_case_with_run(homework_zk)
