@@ -41,6 +41,7 @@ void parity(BoolIO<NetIO> *ios[threads], int party) {
     bool cheat = finalize_zk_bool<BoolIO<NetIO>>();
     if (cheat)error("cheat!\n");
 }
+// q: how to compose operations?
 
 // write a protocol wherein Alice: 
 //     - commits to 4 hidden integers
@@ -56,9 +57,9 @@ void threshold_and_sum(BoolIO<NetIO> *ios[threads], int party) {
 // SUBROUTINES: these functions do not include setup and finalize operations -- instead we will call those operations in main()
 
 // compute the euclidean distance between (a,b) and (x,y), and return it.
-Integer dist(Float a, Float b, Float x, Float y) {
+Float dist(Float a, Float b, Float x, Float y) {
     // YOUR CODE HERE
-    Integer ret(32, 0, ALICE);
+    Float ret(0, ALICE);
     return ret;
 }
 
@@ -85,11 +86,22 @@ int main(int argc, char **argv) {
     for (int i = 0; i < threads; ++i)
         ios[i] = new BoolIO<NetIO>(new NetIO(party == ALICE ? nullptr : "127.0.0.1", port + i), party == ALICE);
 
+    // test protocols (parity, threshold_and_sum) here (do not nest setup_zk_bool() calls)
     hello_world_zk(ios, party); 
 
 
-    // test subroutines inside this wrapper:
+
+    
+
+    // test subroutines in here:
     setup_zk_bool<BoolIO<NetIO>>(ios, threads, party);
+
+    Float a(1, ALICE);
+    Float b(2, ALICE);
+    Float x(5, ALICE);
+    Float y(2, ALICE);
+    cout << "dist(): " << dist(a,b,x,y).reveal<double>() << endl;
+
 
     vector<Integer> xs;
     xs.push_back(Integer(32, 2, ALICE));
