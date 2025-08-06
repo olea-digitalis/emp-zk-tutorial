@@ -3,6 +3,7 @@
 ## Install Instructions
 
 ##### Mac:
+- if you don't have homebrew, install it by running `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)` in Terminal
 - install wget: `brew install wget`
 - install cmake: `brew install cmake`
 - change everything in emp folder to Cmake requirement to version 3.5
